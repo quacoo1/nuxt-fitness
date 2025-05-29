@@ -15,7 +15,7 @@ export default withNuxt(antfu({
     'no-console': ['warn'],
     'antfu/no-top-level-await': ['off'],
     'node/prefer-global/process': ['off'],
-    'node/no-process-env': ['error'],
+    'node/no-process-env': ['off'],
     'perfectionist/sort-imports': ['error', {
       tsconfigRootDir: '.',
     }],
@@ -23,5 +23,6 @@ export default withNuxt(antfu({
       case: 'kebabCase',
       ignore: ['README.md'],
     }],
+    'vue/no-multiple-template-root': ['off'],
   },
 }))

@@ -1,6 +1,4 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import './lib/env'
-
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
@@ -10,5 +8,16 @@ export default defineNuxtConfig({
     },
   },
   css: ['~/assets/css/main.css'],
-  modules: ['@nuxt/eslint', '@nuxt/ui'],
+  modules: [
+    '@nuxt/eslint',
+    '@nuxt/ui',
+    '@pinia/nuxt',
+    '@nuxtjs/supabase',
+    '@nuxtjs/supabase',
+  ],
+  supabase: {
+    url: process.env.SUPABASE_URL,
+    key: process.env.SUPABASE_KEY,
+    redirect: false,
+  },
 })
