@@ -13,11 +13,13 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@pinia/nuxt',
     '@nuxtjs/supabase',
-    '@nuxtjs/supabase',
   ],
   supabase: {
     url: process.env.SUPABASE_URL,
     key: process.env.SUPABASE_KEY,
-    redirect: false,
+    redirectOptions: {
+      callback: '/',
+      login: '/login',
+    },
   },
 })
