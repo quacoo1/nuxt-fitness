@@ -10,6 +10,9 @@ export default withNuxt(antfu({
   ignores: ['.pnpm-store/**', '**/migrations/*'],
 }, {
   rules: {
+    'style/brace-style': ['error', '1tbs', {
+      allowSingleLine: true,
+    }],
     'ts/no-redeclare': 'off',
     'ts/consistent-type-definitions': ['error', 'type'],
     'no-console': ['warn'],
