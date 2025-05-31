@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from '@nuxt/ui'
-import type { AuthError } from '@supabase/supabase-js'
 
 import { z } from 'zod'
 
 const supabaseClient = useSupabaseClient()
 const user = useSupabaseUser()
-
-const toast = useToast()
+const { alertError } = useAlert()
 
 const isLoggingIn = ref(false)
 const showModal = ref(false)
@@ -28,22 +26,15 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
 async function login(email: string) {
   isLoggingIn.value = true
-  const { error } = await supabaseClient.auth.signInWithOtp({ email })
+  const { error } = await supabaseClient.auth.signInWithOtp({ email, options: {
+    emailRedirectTo: 'http://localhost:3000/confirm',
+  } })
   if (error) {
-    displayError(error)
+    alertError(error)
   } else {
     showModal.value = true
   }
   isLoggingIn.value = false
-}
-
-function displayError(error: AuthError) {
-  toast.add({
-    title: 'Error',
-    description: error.message,
-    icon: 'i-hugeicons-alert-01',
-    color: 'error',
-  })
 }
 
 watchEffect(() => {
@@ -54,7 +45,6 @@ watchEffect(() => {
 </script>
 
 <template>
-  {{ user }}
   <UCard class="max-w-sm w-full mx-auto">
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormField label="Email" name="email" size="xl">
