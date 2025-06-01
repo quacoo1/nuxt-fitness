@@ -18,7 +18,7 @@ async function logout() {
 </script>
 
 <template>
-  <nav class="bg-default border-b border-muted">
+  <nav class="bg-default">
     <UContainer>
       <div class="flex h-16 items-center justify-between">
         <div class="flex space-x-2 ">
@@ -28,7 +28,8 @@ async function logout() {
             <span class="font-mono">Fitness</span>
           </div>
         </div>
-        <div class="flex space-x-4">
+
+        <div class="flex space-x-2 md:space-x-4">
           <ColorModeButton />
           <UButton v-if="user" icon="i-hugeicons-logout-03" :loading="isLoggingOut" @click="logout">
             Logout

@@ -9,5 +9,7 @@ watch(user, () => {
 </script>
 
 <template>
-  <div>Waiting for login...</div>
+  <div class="my-12">
+    Waiting for login...
+  </div>
 </template>
