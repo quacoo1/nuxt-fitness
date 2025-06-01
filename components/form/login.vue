@@ -57,15 +57,25 @@ watchEffect(() => {
     </UForm>
   </UCard>
 
-  <UModal v-model:open="showModal" title="One Time Password login">
+  <UModal v-model:open="showModal" title="One Time Password login" fullscreen>
     <template #body>
-      <p>
-        We've sent a one time password login the the following email
-        address: <strong>{{ state.email }}</strong>.
-      </p>
-      <p class="mt-4 pb-4 text-muted">
-        If this is not the correct email address, please try again.
-      </p>
+      <div class="flex h-full items-center">
+        <div>
+          <h2 class="text-4xl font-light">
+            We've sent a one time password login to:
+            <br>
+            <span class="text-primary font-medium">{{ state.email }}</span>.
+          </h2>
+          <p class="mt-8 pb-2 text-muted max-w-2xl">
+            Using the link in the email, you can proceed to the app and you can close this browser window. If this is not the correct email address, please try again.
+          </p>
+        </div>
+      </div>
+    </template>
+    <template #footer>
+      <UButton @click="showModal = !showModal">
+        Close
+      </UButton>
     </template>
   </UModal>
 </template>

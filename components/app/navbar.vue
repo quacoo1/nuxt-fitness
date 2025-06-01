@@ -18,17 +18,18 @@ async function logout() {
 </script>
 
 <template>
-  <nav class="bg-default border-b border-muted">
+  <nav class="bg-default">
     <UContainer>
-      <div class="relative flex h-16 items-center justify-between">
-        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-          <div class="flex shrink-0 items-center">
-            <UButton size="xl" variant="ghost" color="neutral" icon="hugeicons:equipment-gym-03" :ui="{ base: 'font-mono', leadingIcon: 'text-primary' }">
-              Fitness
-            </UButton>
+      <div class="flex h-16 items-center justify-between">
+        <div class="flex space-x-2 ">
+          <AppSidebar v-if="user" />
+          <div class="flex items-center space-x-2">
+            <Icon name="hugeicons:equipment-gym-03" class="text-primary size-6" />
+            <span class="font-mono">Fitness</span>
           </div>
         </div>
-        <div class="flex space-x-4">
+
+        <div class="flex space-x-2 md:space-x-4">
           <ColorModeButton />
           <UButton v-if="user" icon="i-hugeicons-logout-03" :loading="isLoggingOut" @click="logout">
             Logout
