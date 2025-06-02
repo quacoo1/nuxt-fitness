@@ -29,9 +29,9 @@ async function logout() {
           </div>
         </div>
 
-        <div class="flex space-x-2 md:space-x-4">
+        <div class="flex">
           <ColorModeButton />
-          <UButton v-if="user" icon="i-hugeicons-logout-03" :loading="isLoggingOut" @click="logout">
+          <UButton v-if="user" color="neutral" variant="ghost" icon="i-hugeicons-logout-03" :loading="isLoggingOut" @click="logout">
             Logout
           </UButton>
         </div>
