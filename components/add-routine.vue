@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { Routine } from '~/types/fitness.types'
 
+const props = defineProps<{ hasRoutines: boolean }>()
 const emit = defineEmits<{ newRoutine: [routine: Routine] }>()
-
 const isModalOpen = ref(false)
 
 const routine = ref<Routine>({ exercise: '', routines: [] })
@@ -53,7 +53,9 @@ watch(isModalOpen, () => {
 
 <template>
   <UModal v-model:open="isModalOpen" :title="modalTitle" :ui="{ footer: 'justify-end' }">
-    <UButton variant="subtle" icon="i-hugeicons-add-01" block :ui="{ base: 'aspect-square', leadingIcon: 'size-8' }" />
+    <UButton variant="subtle" icon="i-hugeicons-add-01" block :ui="{ leadingIcon: props.hasRoutines ? 'size-8' : 'size-4' }">
+      {{ props.hasRoutines ? '' : 'Add New Routine' }}
+    </UButton>
     <template #body>
       <SelectExercise v-if="!isNextPage" v-model="routine.exercise" />
       <AddRoutineForm v-else v-model:routine-items="routine.routines" v-model:current-routine-item="currentRoutine" />

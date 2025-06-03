@@ -19,7 +19,6 @@ function removeRoutine(id: number) {
 </script>
 
 <template>
-  <!-- <pre>{{ routineItems }}</pre> -->
   <div class="space-y-8">
     <div class="grid grid-cols-[1fr_1fr_auto] gap-4">
       <div class="flex flex-col gap-2">
@@ -40,7 +39,7 @@ function removeRoutine(id: number) {
     </div>
     <div class="space-y-2">
       <AppLabel>
-        Summary
+        Sets
       </AppLabel>
       <AddRoutineTable :data="routineItems" @remove-item="removeRoutine" />
     </div>

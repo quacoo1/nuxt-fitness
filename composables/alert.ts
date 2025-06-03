@@ -1,15 +1,22 @@
-import type { AuthError, PostgrestError } from '@supabase/supabase-js'
-
 export function useAlert() {
   const toast = useToast()
 
-  function alertError(error: AuthError | PostgrestError) {
+  function alertError(message: string) {
     toast.add({
       title: 'Error',
-      description: error.message,
+      description: message,
       icon: 'i-hugeicons-alert-01',
       color: 'error',
     })
   }
-  return { alertError }
+
+  function alertSuccess(message: string) {
+    toast.add({
+      title: 'Success',
+      description: message,
+      icon: 'i-hugeicons-information-diamond',
+      color: 'info',
+    })
+  }
+  return { alertError, alertSuccess }
 }

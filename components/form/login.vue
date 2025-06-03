@@ -30,7 +30,7 @@ async function login(email: string) {
     emailRedirectTo: 'http://localhost:3000/confirm',
   } })
   if (error) {
-    alertError(error)
+    alertError(error.message)
   } else {
     showModal.value = true
   }
