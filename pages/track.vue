@@ -1,5 +1,5 @@
 <template>
   <NuxtLayout name="dashboard">
-    Home
+    <TrackExercise />
   </NuxtLayout>
 </template>

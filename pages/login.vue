@@ -1,5 +1,5 @@
 <template>
-  <div class="my-16">
+  <div class="py-20">
     <FormLogin />
   </div>
 </template>
