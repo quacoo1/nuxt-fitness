@@ -137,11 +137,11 @@ export type Database = {
     Views: {
       workout_dashboard_view: {
         Row: {
-          cumulative_weight: number | null
-          last_workout_date: string | null
-          most_weight_single_workout: number | null
-          profile_id: string | null
-          total_workouts: number | null
+          cumulative_weight: number
+          last_workout_date: string
+          most_weight_single_workout: number
+          profile_id: string
+          total_workouts: number
         }
         Relationships: [
           {

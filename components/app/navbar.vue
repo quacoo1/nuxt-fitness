@@ -11,7 +11,7 @@ async function logout() {
   const { error } = await supabaseClient.auth.signOut()
   navigateTo('/login')
   if (error) {
-    alertError(error)
+    alertError(error.message)
   }
   isLoggingOut.value = false
 }
