@@ -7,7 +7,7 @@ const route = useRoute()
 const items = ref<NavigationMenuItem[][]>([
   [
     {
-      label: 'Home',
+      label: 'Dashboard',
       icon: 'i-hugeicons-home-09',
       to: '/',
     },

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const fitnessStore = useFitnessStore()
 const modelValue = defineModel<string>({ required: true })
-await callOnce('exercises', () => fitnessStore.getExercises())
+// await callOnce('exercises', () => fitnessStore.getExercises())
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-import type { Exercise, Set, Workout } from '@/types/fitness.types'
+import type { Dashboard, Exercise, Set, Workout, WorkoutViewFromDatasource } from '@/types/fitness.types'
 
 export const useFitnessStore = defineStore('fitness', () => {
   const supabaseClient = useSupabaseClient()
@@ -21,65 +21,120 @@ export const useFitnessStore = defineStore('fitness', () => {
     }
   }
 
-  async function insertWorkout(date: string, profile_id: string): Promise<string> {
-    try {
-      const { data, error } = await supabaseClient.from('workouts')
-        .insert({ created_at: date, profile_id })
-        .select()
+  getExercises()
 
-      if (error)
-        throw error
-      const workoutId = data?.[0].id
-      return workoutId
-    } catch (error) {
-      console.error(error)
-      throw error
+  const workouts: Ref<WorkoutViewFromDatasource[] | []> = ref([])
+
+    type GetWorkoutsOptions = {
+      order: string
     }
-  }
+    async function getWorkouts(options: GetWorkoutsOptions = { order: 'ascending' }) {
+      try {
+        if (!user.value)
+          return
+        const { id } = user.value
 
-  async function insertSets(sets: Set[]) {
-    try {
-      const { error } = await supabaseClient.from('sets')
-        .insert(sets)
-      if (error)
-        throw error
-    } catch (error) {
-      console.error(error)
-      return error
-    }
-  }
+        const order = { ascending: options.order === 'ascending' }
 
-  async function saveWorkout(workout: Workout) {
-    if (!user.value)
-      return
+        const { data, error, status }: any = await supabaseClient
+          .from('workout_history_view')
+          .select()
+          .eq('profile_id', id)
+          .order('workout_created_at', order)
 
-    const { id } = user.value
+        if (error && status !== 406)
+          throw error
 
-    try {
-      const workoutId = await insertWorkout(workout.date, id)
-      if (workoutId) {
-        const sets: Set[] = []
-
-        for (const routine of workout.routines) {
-          for (const innerRoutine of routine.routines) {
-            sets.push({
-              exercise_id: routine.exercise || '',
-              workout_id: workoutId,
-              profile_id: id,
-              weight: innerRoutine.weight,
-              repetitions: innerRoutine.repetitions,
-            })
-          }
+        if (data) {
+          workouts.value = data
         }
-
-        await insertSets(sets)
+      } catch (error: any) {
+        console.error(error.message)
       }
-    } catch (error: any) {
-      console.error(error.message)
     }
-  }
+    getWorkouts({ order: 'descending' })
 
-  return { exercises, getExercises, saveWorkout }
+    async function insertWorkout(date: string, profile_id: string): Promise<string> {
+      try {
+        const { data, error } = await supabaseClient.from('workouts')
+          .insert({ created_at: date, profile_id })
+          .select()
+
+        if (error)
+          throw error
+        const workoutId = data?.[0].id
+        return workoutId
+      } catch (error) {
+        console.error(error)
+        throw error
+      }
+    }
+
+    async function insertSets(sets: Set[]) {
+      try {
+        const { error } = await supabaseClient.from('sets')
+          .insert(sets)
+        if (error)
+          throw error
+      } catch (error) {
+        console.error(error)
+        return error
+      }
+    }
+
+    async function saveWorkout(workout: Workout) {
+      if (!user.value)
+        return
+
+      const { id } = user.value
+
+      try {
+        const workoutId = await insertWorkout(workout.date, id)
+        if (workoutId) {
+          const sets: Set[] = []
+
+          for (const routine of workout.routines) {
+            for (const innerRoutine of routine.routines) {
+              sets.push({
+                exercise_id: routine.exercise || '',
+                workout_id: workoutId,
+                profile_id: id,
+                weight: innerRoutine.weight,
+                repetitions: innerRoutine.repetitions,
+              })
+            }
+          }
+
+          await insertSets(sets)
+        }
+      } catch (error: any) {
+        console.error(error.message)
+      }
+    }
+
+    const dashboard = ref<Dashboard>()
+
+    async function getDashboard() {
+      try {
+        if (!user.value)
+          return
+        const { id } = user.value
+        const { data, error, status } = await supabaseClient.from('workout_dashboard_view')
+          .select()
+          .eq('profile_id', id)
+
+        if (error && status !== 406)
+          throw error
+        if (data && data.length === 1) {
+          dashboard.value = data[0]
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    getDashboard()
+
+    return { exercises, getExercises, workouts, getWorkouts, saveWorkout, dashboard, getDashboard }
 })
 
 if (import.meta.hot) {

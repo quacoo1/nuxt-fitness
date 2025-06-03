@@ -40,7 +40,7 @@ const hasRoutines = computed(() => routines.value.length > 0)
   <div class="space-y-4">
     <div class="flex items-end space-x-4 justify-between">
       <div>
-        <h2 class="text-4xl font-light lg:text-5xl">
+        <h2 class="text-2xl font-light md:text-4xl lg:text-5xl">
           {{ selectedDate || 'Choose a date' }}
         </h2>
       </div>
@@ -56,7 +56,7 @@ const hasRoutines = computed(() => routines.value.length > 0)
       <h2 v-show="hasRoutines" class="font-medium text-primary">
         Routines
       </h2>
-      <div class="grid grid-cols-4 gap-4">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div v-for="routine in routines" :key="routine.id">
           <UCard>
             <template #header>
