@@ -21,7 +21,7 @@ onMounted(async () => {
       .select()
 
     if (error) {
-      alertError(error)
+      alertError(error.message)
     }
   }
 })
