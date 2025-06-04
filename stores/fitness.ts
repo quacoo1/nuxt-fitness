@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-import type { Dashboard, Exercise, Set, Workout, WorkoutViewFromDatasource } from '@/types/fitness.types'
+import type { Dashboard, Exercise, Set, Workout, WorkoutFromDatasource, WorkoutViewFromDatasource } from '@/types/fitness.types'
 
 export const useFitnessStore = defineStore('fitness', () => {
   const supabaseClient = useSupabaseClient()
@@ -112,8 +112,39 @@ export const useFitnessStore = defineStore('fitness', () => {
       }
     }
 
-    const dashboard = ref<Dashboard>()
+    const workoutsWithSets = ref<WorkoutFromDatasource | []>([])
+    async function getWorkoutsWithSets(options: GetWorkoutsOptions = { order: 'ascending' }) {
+      try {
+        if (!user.value)
+          return
+        const { id } = user.value
 
+        const order = { ascending: options.order === 'ascending' }
+
+        const { data, error, status }: any = await supabaseClient
+          .from('workouts')
+          .select(`id, created_at,
+                  sets (
+                    workout_id, weight, repetitions,
+                    exercises ( name, color ) 
+                  )`)
+          .eq('profile_id', id)
+          .order('created_at', order)
+
+        if (error && status !== 406)
+          throw error
+
+        if (data) {
+          workoutsWithSets.value = data
+          return data
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    getWorkouts()
+
+    const dashboard = ref<Dashboard>()
     async function getDashboard() {
       try {
         if (!user.value)
@@ -134,7 +165,17 @@ export const useFitnessStore = defineStore('fitness', () => {
     }
     getDashboard()
 
-    return { exercises, getExercises, workouts, getWorkouts, saveWorkout, dashboard, getDashboard }
+    return {
+      exercises,
+      getExercises,
+      workouts,
+      getWorkouts,
+      saveWorkout,
+      workoutsWithSets,
+      getWorkoutsWithSets,
+      dashboard,
+      getDashboard,
+    }
 })
 
 if (import.meta.hot) {

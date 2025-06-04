@@ -1,8 +1,8 @@
 <template>
   <NuxtLayout name="dashboard">
     <template #title>
-      Dashboard
+      Graph
     </template>
-    <WorkoutHistory />
+    <GraphView />
   </NuxtLayout>
 </template>
