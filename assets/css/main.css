@@ -1,5 +1,11 @@
 @import 'tailwindcss';
 @import '@nuxt/ui';
+
+@theme static {
+  --font-sans: 'Inter', sans-serif;
+  --font-logo: 'Bebas Neue', sans-serif;
+}
+
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
