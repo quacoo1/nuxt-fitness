@@ -3,9 +3,7 @@ const currentYear = new Date().getFullYear()
 </script>
 
 <template>
-  <header>
-    <AppNavbar />
-  </header>
+  <AppNavbar />
   <main>
     <UContainer>
       <slot />
